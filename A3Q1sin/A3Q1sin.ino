@@ -9,18 +9,18 @@ unsigned char *tcnt1h = (unsigned char *) 0x85;
 void setup()
 {
   DDRB = (1<<1); //set the timer1 as an output
+  int period = 5000; //the period can be decreased everso slightly to compensate the discrepancy caused by excecuting the statements in the loop
   long value = 0;
   unsigned int count = 0;
   *tccr1a = 0b10000011;
   *tccr1b = 0b00111011;
   Serial.begin(9600);
   while (1) 
-    {/*If we require the output to be 16-bit for some reason*/
-    //value = (65525/2)*sin(count*2*PI/5000)+ (65525/2);
-    //*ocr1al = (value & 255);
-    //*ocr1ah = (value >> 8);
+    {
+    value = 128* sin(count*2*PI/period)+ 128;
+    *ocr1al = value;
+    Serial.println(*ocr1al);
     count+= 11;
-    if (count >= 5000) count%= 5000;
     delay(11);
     }
 }
