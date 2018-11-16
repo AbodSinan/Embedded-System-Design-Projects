@@ -12,15 +12,18 @@ void setup()
   int period = 5000; //the period can be decreased everso slightly to compensate the discrepancy caused by excecuting the statements in the loop
   long value = 0;
   unsigned int count = 0;
+  unsigned char output = 0; 
   *tccr1a = 0b10000011;
   *tccr1b = 0b00111011;
   Serial.begin(9600);
   while (1) 
     {
     value = 128* sin(count*2*PI/period)+ 128;
-    *ocr1al = value;
+    output = (unsigned char) value
+    *ocr1al = output;
     Serial.println(*ocr1al);
     count+= 11;
+    if (count>=5000) count = 0;
     delay(11);
     }
 }
